@@ -16,12 +16,20 @@
   
 	<dependencies>  
 	
-	 <!-- Adding web dependency by adding spring-boot-starter-web  -->
+	 <!-- Add web dependency by adding spring-boot-starter-web  -->
 	 
 	    <dependency>  
 	        <groupId>org.springframework.boot</groupId>  
 	        <artifactId>spring-boot-starter-web</artifactId>  
-	    </dependency>  
+	    </dependency>
+	    
+	     <!-- Adding dev tools for debugging etc.  -->
+	     
+	    <dependency>  
+	        <groupId>org.springframework.boot</groupId>  
+	        <artifactId>spring-boot-devtools</artifactId>
+	        <scope>runtime</scope>  
+	    </dependency>    
 	    
 	     <!-- Add Mongo DB Dependency  -->
 	     
