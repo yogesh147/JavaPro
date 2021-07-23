@@ -1,4 +1,4 @@
-package javaPro;
+package com.javaPro;
 
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
 
-import com.javaPro.config.Constants;
+import com.javaPro.constants.Constants;
 
 @EnableConfigurationProperties
 @SpringBootApplication

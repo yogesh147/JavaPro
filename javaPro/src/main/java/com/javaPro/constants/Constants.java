@@ -1,4 +1,4 @@
-package com.javaPro.config;
+package com.javaPro.constants;
 
 public final class Constants {
 
