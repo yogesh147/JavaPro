@@ -1,0 +1,28 @@
+# ===================================================================
+# Spring Boot configuration for the "dev" profile.
+#
+# This configuration overrides the application.yml file.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+
+spring:
+    devtools:
+        restart:
+              enabled: true
+        livereload:
+            enabled: true
+    data:
+        mongodb:
+            #uri: mongodb://feuser:local@localhost:27017
+            host: localhost:27017
+            database: java_pro
+server:
+     http:
+        port: 8080
+
