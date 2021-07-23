@@ -22,7 +22,3 @@ spring:
             #uri: mongodb://feuser:local@localhost:27017
             host: localhost:27017
             database: java_pro
-server:
-     http:
-        port: 8080
-
