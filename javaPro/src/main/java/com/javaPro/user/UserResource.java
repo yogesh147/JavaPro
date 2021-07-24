@@ -28,8 +28,13 @@ public class UserResource {
 	@PostMapping
 	public ResponseEntity<UserDTO> create(@RequestBody UserDTO dto) {
 		log.info("On Saving User ::");
-		UserDTO userDto = userService.create(dto);
-		return new ResponseEntity<UserDTO>(userDto, HttpStatus.CREATED);
+		try {
+			UserDTO userDto = userService.create(dto);
+			return new ResponseEntity<UserDTO>(userDto, HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<UserDTO>(dto, HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@GetMapping

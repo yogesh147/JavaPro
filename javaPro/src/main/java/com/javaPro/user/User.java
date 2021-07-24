@@ -8,9 +8,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.javaPro.address.Address;
+import com.javaPro.extraField.ExtraField;
 
 @Document(collection = "User")
-public class User implements Serializable {
+public class User extends ExtraField implements Serializable {
 
 	private static final long serialVersionUID = -510550280949240768L;
 

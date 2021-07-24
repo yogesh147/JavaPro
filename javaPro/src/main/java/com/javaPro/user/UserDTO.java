@@ -3,8 +3,9 @@ package com.javaPro.user;
 import java.util.List;
 
 import com.javaPro.address.AddressDTO;
+import com.javaPro.extraField.ExtraField;
 
-public class UserDTO {
+public class UserDTO extends ExtraField {
 
 	private String id;
 

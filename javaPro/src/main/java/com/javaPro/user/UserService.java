@@ -9,6 +9,8 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.javaPro.address.Address;
+import com.javaPro.address.AddressDTO;
+import com.javaPro.constants.Constants;
 
 @Service
 public class UserService {
@@ -16,27 +18,54 @@ public class UserService {
 	@Inject
 	private UserRepository repo;
 
-	public UserDTO create(UserDTO dto) {
-		User user = repo.save(new User(dto));
-		return new UserDTO(user);
+	public UserDTO create(UserDTO dto) throws Exception {
+		if (dto == null)
+			throw new Exception("User not found");
+		try {
+			User domain = new User();
+			domain.setRecordStatus(Constants.RECORD_STATUS_CREATED);
+			domain.setCreatedDate(new java.util.Date());
+			domain.setLastModifiedDate(new java.util.Date());
+			domain = repo.save(dtoToDomain(dto, domain));
+			dto = DomainToDTO(domain, dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
 	}
 
 	public List<UserDTO> read() {
-		List<User> users = repo.findAll();
 		List<UserDTO> dtos = new ArrayList<>();
-		dtos = users.stream().map(user -> new UserDTO(user)).collect(Collectors.toList());
+		try {
+			List<User> users = repo.findAll();
+			if (!users.isEmpty())
+				dtos = users.stream().map(domain -> DomainToDTO(domain, null)).collect(Collectors.toList());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return dtos;
 	}
 
 	public UserDTO update(UserDTO dto) throws Exception {
 		User user = repo.findOne(dto.getId());
-		user = dtoTODomain(dto, user);
-		return new UserDTO(repo.save(user));
-	}
-
-	private User dtoTODomain(UserDTO dto, User user) throws Exception {
 		if (user == null)
 			throw new Exception("User not found");
+		user.setRecordStatus(Constants.RECORD_STATUS_UPDATED);
+		user.setLastModifiedDate(new java.util.Date());
+		user = dtoToDomain(dto, user);
+		return DomainToDTO(repo.save(user), null);
+	}
+
+	public UserDTO delete(String id) throws Exception {
+		User user = repo.findOne(id);
+		if (user == null)
+			throw new Exception("User not found");
+		user.setRecordStatus(Constants.RECORD_STATUS_DELETED);
+		user.setLastModifiedDate(new java.util.Date());
+		return DomainToDTO(repo.save(user), null);
+	}
+
+	private User dtoToDomain(UserDTO dto, User user) {
 		user.setAddress(new Address(dto.getAddress()));
 		user.setAge(dto.getAge());
 		user.setGrade(dto.getGrade());
@@ -48,11 +77,21 @@ public class UserService {
 		return user;
 	}
 
-	public UserDTO delete(String id) throws Exception {
-		User user = repo.findOne(id);
-		if (user == null)
-			throw new Exception("User not found");
-		repo.delete(id);
-		return new UserDTO(user);
+	private UserDTO DomainToDTO(User user, UserDTO dto) {
+		if (dto == null)
+			dto = new UserDTO();
+		dto.setId(user.getId());
+		dto.setAddress(new AddressDTO(user.getAddress()));
+		dto.setAge(user.getAge());
+		dto.setGrade(user.getGrade());
+		dto.setName(user.getName());
+		dto.setPhoneNos(user.getPhoneNos());
+		dto.setRollNo(user.getRollNo());
+		dto.setSalary(user.getSalary());
+		dto.setUserId(user.getUserId());
+		dto.setRecordStatus(user.getRecordStatus());
+		dto.setCreatedDate(user.getCreatedDate());
+		dto.setLastModifiedDate(user.getLastModifiedDate());
+		return dto;
 	}
 }
