@@ -2,15 +2,19 @@ package com.javaPro.user;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import com.javaPro.address.Address;
 import com.javaPro.address.AddressDTO;
 import com.javaPro.constants.Constants;
+import com.javaPro.util.MongoUtil;
 
 @Service
 public class UserService {
@@ -34,16 +38,20 @@ public class UserService {
 		return dto;
 	}
 
-	public List<UserDTO> read() {
-		List<UserDTO> dtos = new ArrayList<>();
+	public Page<User> getAllUsers(Map<String, String> hmap, Pageable pageable) {
+		Page<User> page = null;
 		try {
-			List<User> users = repo.findAll();
-			if (!users.isEmpty())
-				dtos = users.stream().map(domain -> DomainToDTO(domain, null)).collect(Collectors.toList());
+			String id = hmap.get("id");
+			Criteria cr = MongoUtil.getCriteria();
+			if (MongoUtil.isNotEmptyOrNull(id))
+				cr.and("_id").is(id);
+
+			page = MongoUtil.getData(cr, User.class, hmap, pageable);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return dtos;
+		return page;
 	}
 
 	public UserDTO update(UserDTO dto) throws Exception {
@@ -94,4 +102,15 @@ public class UserService {
 		dto.setLastModifiedDate(user.getLastModifiedDate());
 		return dto;
 	}
+
+	public List<UserDTO> domainToDTOs(List<User> users) {
+		List<UserDTO> dto = new ArrayList<UserDTO>();
+		if (users == null || users.size() == 0)
+			return dto;
+		for (User user : users) {
+			dto.add(DomainToDTO(user, null));
+		}
+		return dto;
+	}
+
 }
