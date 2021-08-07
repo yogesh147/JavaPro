@@ -1,99 +1,54 @@
-# ===================================================================
-# Spring Boot configuration for the "dev" profile.
-#
-# This configuration overrides the application.yml file.
-# ===================================================================
+  "outputPath": "../../../JavaPro/javaPro/src/main/resources/static",
+#################################################################################################################
+<plugin>
+	<artifactId>maven-resources-plugin</artifactId>
+	<executions>
+		<execution>
+			<id>copy-resources</id>
+			<phase>validate</phase>
+			<goals>
+				<goal>copy-resources</goal>
+			</goals>
+			<configuration>
+				<outputDirectory>${basedir}/target/classes/static/</outputDirectory>
+				<resources>
+					<resource>
+						<directory>${basedir}/../angularPro/dist</directory>
+					</resource>
+				</resources>
+			</configuration>
+		</execution>
+	</executions>
+</plugin>		
+			
+#################################################################################################################
+<packaging>war</packaging>
 
-# ===================================================================
-# Standard Spring Boot properties.
-# Full reference is available at:
-# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
-# ===================================================================
+<!-- <plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>src/main/resources/classes/static/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources/static</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> -->
 
+#################################################################################################################
+https://www.devglan.com/spring-boot/spring-boot-angular-8-example   // FOR TOKEN BASED AUTH
+#################################################################################################################
 
-spring:
-    devtools:
-        restart:
-            enabled: true
-        livereload:
-            enabled: false
-    data:
-        mongodb:
-            #uri: mongodb://localhost:27017
-            host: localhost:27027
-            database: java_pro
-    mail:
-        host: smtp.office365.comDEMO
-        port: 587
-        username: support@javaPro.comDEMO
-        password: javaPro123@mail
-        smtp:
-          auth: true
-          starttls:
-             enable: true
-    messages:
-        cache-seconds: 1
-    thymeleaf:
-        cache: false
+#################################################################################################################
 
-liquibase:
-    contexts: dev
-
-server:
-     port: 8443
-     ssl:
-      enable:
-         true
-      key-store:
-          /javaPro.keystore
-      key-store-password: 
-         P@ssw0rd1
-     http:
-        port:
-          8080
-
-# ===================================================================
-# JHipster specific properties
-# ===================================================================
-
-jhipster:
-    http:
-        version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
-    # CORS is only enabled by default with the "dev" profile, so BrowserSync can access the API
-    cors:
-        allowed-origins: "*"
-        allowed-methods: GET, PUT, POST, DELETE, OPTIONS
-        allowed-headers: "*"
-        exposed-headers:
-        allow-credentials: true
-        max-age: 1800
-    security:
-        authentication:
-            jwt:
-                secret: my-secret-token-to-change-in-production
-                # Token is valid 24 hours
-                token-validity-in-seconds: 86400
-                token-validity-in-seconds-for-remember-me: 2592000
-    mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: support@javaPro.com
-    metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
-        jmx.enabled: true
-        graphite:
-            enabled: false
-            host: localhost
-            port: 2003
-            prefix: javaPro
-        prometheus: # Use the "prometheus" Maven profile to have the Prometheus dependencies
-            enabled: false
-            endpoint: /prometheusMetrics
-        logs: # report metrics in the logs
-            enabled: false
-            reportFrequency: 60 # in seconds
-    logging:
-        logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
-            enabled: false
-            host: localhost
-            port: 5000
-            queueSize: 512
-    swagger: # swagger is enabled. It can be disabled by pasing 'no-swagger' profile at run time as well
-        enabled: true
+#################################################################################################################

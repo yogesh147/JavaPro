@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.javaPro.util.MongoUtil;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("user")
 public class UserResource {
