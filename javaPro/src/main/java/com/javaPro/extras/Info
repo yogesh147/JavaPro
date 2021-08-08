@@ -48,7 +48,29 @@
 #################################################################################################################
 https://www.devglan.com/spring-boot/spring-boot-angular-8-example   // FOR TOKEN BASED AUTH
 #################################################################################################################
-
+netstat -ano | findstr 8080
+taskkill /F /PID 3700
 #################################################################################################################
-
+<plugin>
+    <artifactId>maven-resources-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>copy-resources</id>
+            <!-- here the phase you need -->
+            <phase>install</phase>
+            <goals>
+                <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+                <outputDirectory>${project.build.directory}/classes/static</outputDirectory>
+                <resources>
+                    <resource>
+                        <directory>${basedir}/src/main/resources/static</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
 #################################################################################################################

@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -42,9 +41,9 @@ public class MongoUtil {
 	public static <T> Page<T> getData(Criteria cr, Class<T> claas, Map<String, String> hmap, Pageable pageable) {
 		try {
 			Query qr = new Query(cr);
-			ApplicationContext context;
-			MongoOperations mongoOps = new MongoTemplate(new MongoClient("localhost", 27017), "java_pro");
+//			ApplicationContext context;
 //			MongoOperations mongoOps = context.getBean(MongoOperations.class);
+			MongoOperations mongoOps = new MongoTemplate(new MongoClient("localhost", 27017), "java_pro");
 			long count = mongoOps.count(qr, claas);
 			if (pageable == null)
 				pageable = new PageRequest(0, 20);
@@ -73,9 +72,6 @@ public class MongoUtil {
 		if (MongoUtil.isNotEmptyOrNull(str)) {
 			return Stream.of(str.trim().split(",")).filter(f -> MongoUtil.isNotEmptyOrNull(f)).map(m -> m.trim())
 					.collect(Collectors.toCollection(HashSet::new));
-//			String[] strParts = str.split(",");
-//			List<String> listParts = Arrays.asList(strParts);
-//			return new HashSet<String>(listParts);
 		}
 		return fields;
 	}
